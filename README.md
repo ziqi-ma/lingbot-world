@@ -101,6 +101,14 @@ torchrun --nproc_per_node=8 generate.py --task i2v-A14B --size 480*832 --ckpt_di
 Tips:
 If you have sufficient CUDA memory, you may increase the `frame_num` parameter to a value such as 961 to generate a one-minute video at 16 FPS. Otherwise if the CUDA memory is not sufficient, you may use ``--t5_cpu`` to decrease the memory usage.
 
+### Quantized Model for Limited GPU Resources
+
+For users with limited GPU memory, we recommend using a **4-bit quantized version** of LingBot-World-Base (Cam), which significantly reduces GPU memory consumption while maintaining competitive visual quality for inference.
+
+👉 Download link: https://huggingface.co/cahlen/lingbot-world-base-cam-nf4
+
+> ⚠️ Note: This quantized model is intended **for inference only**. Minor degradation in visual fidelity and temporal consistency may occur compared to the full-precision model.
+
 ### Demo Results
 We provide comparison demos where camera parameters are estimated by [ViPE](https://github.com/nv-tlabs/vipe) from original videos downloaded from [Genie3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/):
 <div align="center">
