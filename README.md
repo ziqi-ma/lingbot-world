@@ -11,8 +11,7 @@ Robbyant Team
 <div align="center">
 
 [![Page](https://img.shields.io/badge/%F0%9F%8C%90%20Project%20Page-Demo-00bfff)](https://technology.robbyant.com/lingbot-world)
-[![Tech Report](https://img.shields.io/badge/%F0%9F%93%84%20Tech%20Report-Document-teal)](LingBot_World_paper.pdf)
-[![Paper](https://img.shields.io/static/v1?label=Paper&message=PDF&color=red&logo=arxiv)](https://arxiv.org/abs/2601.20540)
+[![Tech Report](https://img.shields.io/static/v1?label=Paper&message=PDF&color=red&logo=arxiv)](https://arxiv.org/abs/2601.20540)
 [![Model](https://img.shields.io/static/v1?label=%F0%9F%A4%97%20Model&message=HuggingFace&color=yellow)](https://huggingface.co/robbyant/lingbot-world-base-cam)
 [![Model](https://img.shields.io/static/v1?label=%F0%9F%A4%96%20Model&message=ModelScope&color=purple)](https://www.modelscope.cn/models/Robbyant/lingbot-world-base-cam)
 [![License](https://img.shields.io/badge/License-Apache--2.0-green)](LICENSE.txt)
@@ -82,11 +81,10 @@ modelscope download robbyant/lingbot-world-base-cam --local_dir ./lingbot-world-
 Before running inference, you need to prepare:
 - Input image
 - Text prompt
-- Control signals (optional, can be generated using [ViPE](https://github.com/nv-tlabs/vipe))
+- Control signals (optional, can be generated from a video using [ViPE](https://github.com/nv-tlabs/vipe))
   - `intrinsics.npy`: Shape `[num_frames, 4]`, where the 4 values represent `[fx, fy, cx, cy]`
   - `poses.npy`: Shape `[num_frames, 4, 4]`, where each `[4, 4]` represents a transformation matrix in OpenCV coordinates
 
-Example inference data is available in the `examples/` directory. Our model supports video generation at both 480P and 720P resolutions. For long video generation, we leverage multi-GPU inference powered by FSDP and DeepSpeed Ulysses.
 - 480P:
 ``` sh
 torchrun --nproc_per_node=8 generate.py --task i2v-A14B --size 480*832 --ckpt_dir lingbot-world-base-cam --image examples/00/image.jpg --action_path examples/00 --dit_fsdp --t5_fsdp --ulysses_size 8 --frame_num 161 --prompt "The video presents a soaring journey through a fantasy jungle. The wind whips past the rider's blue hands gripping the reins, causing the leather straps to vibrate. The ancient gothic castle approaches steadily, its stone details becoming clearer against the backdrop of floating islands and distant waterfalls."
@@ -102,16 +100,31 @@ torchrun --nproc_per_node=8 generate.py --task i2v-A14B --size 480*832 --ckpt_di
 Tips:
 If you have sufficient CUDA memory, you may increase the `frame_num` parameter to a value such as 961 to generate a one-minute video at 16 FPS. Otherwise if the CUDA memory is not sufficient, you may use ``--t5_cpu`` to decrease the memory usage.
 
+<<<<<<< HEAD
 ### Demo Results
 We provide comparison demos where camera parameters are estimated by [ViPE](https://github.com/nv-tlabs/vipe) from original videos downloaded from [Genie3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/):
 <div align="center">
   <video src="https://github.com/user-attachments/assets/9f95ae32-d764-42cf-95a9-04a17c9bc36b" width="100%" poster=""> </video>
   <video src="https://github.com/user-attachments/assets/adefcc5d-7a89-459e-93fb-b83feaaa6338" width="100%" poster=""> </video>
+=======
+### Quantized Model for Limited GPU Resources
+We sincerely thank the community for their valuable support and contributions in LingBot-World. For users with limited GPU memory, we recommend using a **4-bit quantized version** of LingBot-World-Base (Cam), which significantly reduces GPU memory consumption while maintaining competitive visual quality for inference.
+
+👉 Download link: https://huggingface.co/cahlen/lingbot-world-base-cam-nf4
+
+> ⚠️ Note: This quantized model is intended **for inference only**. Minor degradation in visual fidelity and temporal consistency may occur compared to the full-precision model.
+
+### Demo Results
+We provide comparison demos where camera parameters are estimated by [ViPE](https://github.com/nv-tlabs/vipe) from original videos downloaded from [Genie3](https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/):
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/fc95ee9e-e8a9-4f70-9aa2-9536c8365ccc" width="100%" poster=""> </video>
+  <video src="https://github.com/user-attachments/assets/bac89021-b394-4f68-a688-9a0b90e30241" width="100%" poster=""> </video>
+>>>>>>> 8c97946b6644e23c4289bffab5a8e8ad1109994b
 </div>
 
 ## 📚 Related Projects
 - [HoloCine](https://holo-cine.github.io/)
-- [Ditto](https://editto.net/)
+- [Ditto](https://ezioby.github.io/Ditto_page/)
 - [WorldCanvas](https://worldcanvas.github.io/)
 - [RewardForcing](https://reward-forcing.github.io/)
 - [CoDeF](https://qiuyu96.github.io/CoDeF/)
